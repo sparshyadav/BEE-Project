@@ -44,6 +44,16 @@ app.patch("/tasks/:id", (req, res) => {
     });
 });
 
+app.delete("/tasks/:id", (req, res)=>{
+    var index=req.params.id-1;
+    
+    const newTasks=tasks.splice(index, 1);
+
+    fs.writeFile(filePath, JSON.stringify(newTasks), (err, data)=>{
+        res.send({sucess: "Content Deleted"});
+    });
+});
+
 app.listen(7000, () => {
     console.log("Server Started");
 });
