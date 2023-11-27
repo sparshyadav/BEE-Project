@@ -7,6 +7,9 @@ const app = express();
 
 const filePath = path.join(__dirname, "MOCK_DATA.json");
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 app.get("/", (req, res) => {
   return res.send("Hi, This is Home Page of Task Manager");
 });
@@ -21,21 +24,13 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/tasks", (req, res) => {
-  const newTask = req.body.task;
+  const newTask = { task: req.body.task };
 
-  // tasks.push({ id: tasks.length + 1, task: newTask });
+  tasks.push({ id: tasks.length + 1, ...newTask });
 
-  fs.appendFile(
-    filePath,
-    { id: tasks.length + 1, task: newTask },
-    (err, res) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send("Task added successfully");
-      }
-    }
-  );
+  fs.writeFile(filePath, JSON.stringify(tasks), (err, data) => {
+    return res.json({ status: "Pending" });
+  });
 });
 
 app.listen(7000, () => {
