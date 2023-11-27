@@ -33,6 +33,17 @@ app.post("/tasks", (req, res) => {
   });
 });
 
+app.patch("/task/:id", (req, res) => {
+  var index = req.params.id;
+  var newTask = req.body.task;
+
+  data[index].task = newTask;
+
+  fs.writeFile(filePath, JSON.stringify(tasks), (err, data) => {
+    res.send({ sucess: true });
+  });
+});
+
 app.listen(7000, () => {
   console.log("Server Started");
 });
