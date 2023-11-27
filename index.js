@@ -33,7 +33,12 @@ app.post("/tasks", (req, res) => {
     tasks.push({ id: tasks.length + 1, ...newTask });
 
     fs.writeFile(filePath, JSON.stringify(tasks), (err, data) => {
-        return res.json({ status: "Pending" });
+        if(err){
+            return res.send("An Error Occured: ", err);
+        }
+        else{
+            return res.send("New Task Added");
+        }
     });
 });
 
@@ -45,7 +50,12 @@ app.patch("/tasks/:id", (req, res) => {
     tasks[index].task = newTask;
 
     fs.writeFile(filePath, JSON.stringify(tasks), (err, data) => {
-        res.send({ sucess: "Content Changed" });
+        if(err){
+            return res.send("An Error Occured: ", err);
+        }
+        else{
+            return res.send("Task Updated");
+        }
     });
 });
 
@@ -56,7 +66,12 @@ app.delete("/tasks/:id", (req, res) => {
     const newTasks = tasks.filter((task) => task.id !== parseInt(index));
 
     fs.writeFile(filePath, JSON.stringify(newTasks), (err, data) => {
-        res.send({ success: "ID Deleted" });
+        if(err){
+            return res.send("An Error Occured: ", err);
+        }
+        else{
+            return res.send("Task Deleted");
+        }
     });
 });
 
