@@ -44,13 +44,13 @@ app.patch("/tasks/:id", (req, res) => {
     });
 });
 
-app.delete("/tasks/:id", (req, res)=>{
-    var index=req.params.id-1;
-    
-    const newTasks=tasks.splice(index, 1);
+app.delete("/tasks/:id", (req, res) => {
+    var index = req.params.id;
 
-    fs.writeFile(filePath, JSON.stringify(newTasks), (err, data)=>{
-        res.send({sucess: "Content Deleted"});
+    const newTasks = tasks.filter((task) => task.id !== parseInt(index));
+
+    fs.writeFile(filePath, JSON.stringify(newTasks), (err, data) => {
+        res.send({ success: "ID Deleted" });
     });
 });
 
