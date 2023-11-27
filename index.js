@@ -7,13 +7,16 @@ const app = express();
 
 const filePath = path.join(__dirname, "MOCK_DATA.json");
 
+// Middlewares
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// GET Request - Home Page
 app.get("/", (req, res) => {
     return res.send("Hi, This is Home Page of Task Manager");
 });
 
+// GET Request - READ
 app.get("/tasks", (req, res) => {
     const html = `
         <ul>
@@ -23,6 +26,7 @@ app.get("/tasks", (req, res) => {
     return res.send(html);
 });
 
+// POST Request - CREATE
 app.post("/tasks", (req, res) => {
     const newTask = { task: req.body.task };
 
@@ -33,6 +37,7 @@ app.post("/tasks", (req, res) => {
     });
 });
 
+// PATCH Request - EDIT
 app.patch("/tasks/:id", (req, res) => {
     var index = req.params.id - 1;
     var newTask = req.body.task;
@@ -44,6 +49,7 @@ app.patch("/tasks/:id", (req, res) => {
     });
 });
 
+// DELETE Request - DELETE
 app.delete("/tasks/:id", (req, res) => {
     var index = req.params.id;
 
